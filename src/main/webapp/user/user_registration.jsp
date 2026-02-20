@@ -302,14 +302,17 @@
 				<%@ include file="/WEB-INF/common/footer.html" %>
 					<script src="/GeoVendor/js/validation.js"></script>
 					<script>
-<%
-							String mess = (String) request.getAttribute("message");
-						if (mess != null) {
-%>
+						document.addEventListener('DOMContentLoaded', function () {
+							<% String mess = (String) request.getAttribute("message");
+							if (mess != null) { %>
+								showToast('<%= mess %>');
+							<% } %>
+						});
 
-								let toast = document.createElement('div');
+						function showToast(message) {
+							let toast = document.createElement('div');
 							toast.className = 'toast-platinum';
-							toast.innerText = '<%= mess %>';
+							toast.innerText = message;
 							document.body.appendChild(toast);
 
 							setTimeout(() => { toast.classList.add('show'); }, 100);
@@ -318,9 +321,7 @@
 								toast.classList.remove('show');
 								setTimeout(() => { toast.remove(); }, 700);
 							}, 5000);
-<%
-}
-%>
+						}
 					</script>
 					<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 						crossorigin="anonymous"></script>

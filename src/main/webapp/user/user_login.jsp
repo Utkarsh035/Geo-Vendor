@@ -206,36 +206,30 @@
         <%@ include file="/WEB-INF/common/footer.html" %>
             <script src="/GeoVendor/js/validation.js"></script>
             <script>
-<%
-                    String mess = (String) request.getAttribute("message");
-String mess1 = (String) session.getAttribute("logout_msg");
-                if (mess1 != null) session.removeAttribute("logout_msg");
-%>
+                document.addEventListener('DOMContentLoaded', function () {
+                    <% String mess = (String) request.getAttribute("message");
+                       String mess1 = (String) session.getAttribute("logout_msg");
+                    if (mess1 != null) session.removeAttribute("logout_msg");
+                       
+                       String finalMsg = (mess != null) ? mess : mess1;
+                    if (finalMsg != null) { %>
+                        showToast('<%= finalMsg %>');
+                    <% } %>
+                });
 
-<% if (mess != null || mess1 != null) { %>
-                    function showToast(message) {
-                        let toast = document.createElement('div');
-                        toast.className = 'toast-platinum';
-                        toast.innerText = message;
-                        document.body.appendChild(toast);
+                function showToast(message) {
+                    let toast = document.createElement('div');
+                    toast.className = 'toast-platinum';
+                    toast.innerText = message;
+                    document.body.appendChild(toast);
 
-                        setTimeout(() => { toast.classList.add('show'); }, 100);
+                    setTimeout(() => { toast.classList.add('show'); }, 100);
 
-                        setTimeout(() => {
-                            toast.classList.remove('show');
-                            setTimeout(() => { toast.remove(); }, 700);
-                        }, 5000);
-                    }
-
-                    <% if (mess != null) { %>
-                        showToast('<%= mess %>');
-<% } %>
-
-<% if (mess1 != null) { %>
-                        showToast('<%= mess1 %>');
-<% } %>
-
-<% } %>
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        setTimeout(() => { toast.remove(); }, 700);
+                    }, 5000);
+                }
             </script>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
